@@ -2,75 +2,84 @@
 let currentFilter = 'all';
 let allTournaments = [];
 let csvReader = null;
+let csvData = []; // Store CSV parsed data
 
 // Pagination variables
 let currentTournamentPage = 1;
 let currentLeaderboardPage = 1;
 const ITEMS_PER_PAGE = 10;
 
-// CSV File Configuration
-const CSV_FILE_PATH = 'Information Players ( M47W - Survivor ) - Tour Rank (2025).csv';
-const USE_CSV_FILE = true; // Set to true to read from CSV, false to use server-data.js
+// Data Configuration
+const TOURNAMENT_DATA_PATH = 'data/tournament-data.json';
+const CSV_FILE_PATH = 'data/Information Players ( M47W - Survivor ) - Tour Rank (2025).csv';
+const CLEAN_JSON_PATH = 'data/tournament-data-clean.json';
+const USE_CSV_FILE = true; // Set to true to use CSV, false to use JSON only
 
 // All available avatars
 const allAvatars = [
-    'Avatars/AvatarPortrait_AliceRichardson_Widget.png',
-    'Avatars/AvatarPortrait_AmandaGarciaLee_Widget.png',
-    'Avatars/AvatarPortrait_BeardyTrickster_Widget.png',
-    'Avatars/AvatarPortrait_Centurion_Widget.png',
-    'Avatars/AvatarPortrait_CesarMeyer_Widget.png',
-    'Avatars/AvatarPortrait_ChristopherLee_Widget.png',
-    'Avatars/AvatarPortrait_ChuanlinFu_Widget.png',
-    'Avatars/AvatarPortrait_CommanderBar_lay_Widget.png',
-    'Avatars/AvatarPortrait_Cuirassier_Widget.png',
-    'Avatars/AvatarPortrait_DameofHearts_Widget.png',
-    'Avatars/AvatarPortrait_GodofFortuneLNY24_Widget.png',
-    'Avatars/AvatarPortrait_GoldHunt_legendary_Widget.png',
-    'Avatars/AvatarPortrait_GoldHunt_epic_Widget.png',
-    'Avatars/AvatarPortrait_GoldHunt_rare_Widget.png',
-    'Avatars/AvatarPortrait_HambiCoal_Widget.png',
-    'Avatars/AvatarPortrait_HarmonyKeeperLNY24_Widget.png',
-    'Avatars/AvatarPortrait_JamesWhite_Widget.png',
-    'Avatars/AvatarPortrait_Jinjoo_Widget.png',
-    'Avatars/AvatarPortrait_JoHa_sano_Widget.png',
-    'Avatars/AvatarPortrait_KorKoreto_Widget.png',
-    'Avatars/AvatarPortrait_LadySenna_Widget.png',
-    'Avatars/AvatarPortrait_LeeKyungSoo_Widget.png',
-    'Avatars/AvatarPortrait_LongFei_Widget.png',
-    'Avatars/AvatarPortrait_MinjiKang_Widget.png',
-    'Avatars/AvatarPortrait_ModernMarine_Widget.png',
-    'Avatars/AvatarPotrait_SakuraGirl_Widget.png'
+    'assets/images/avatars/AvatarPortrait_AliceRichardson_Widget.png',
+    'assets/images/avatars/AvatarPortrait_AmandaGarciaLee_Widget.png',
+    'assets/images/avatars/AvatarPortrait_BeardyTrickster_Widget.png',
+    'assets/images/avatars/AvatarPortrait_Centurion_Widget.png',
+    'assets/images/avatars/AvatarPortrait_CesarMeyer_Widget.png',
+    'assets/images/avatars/AvatarPortrait_ChristopherLee_Widget.png',
+    'assets/images/avatars/AvatarPortrait_ChuanlinFu_Widget.png',
+    'assets/images/avatars/AvatarPortrait_CommanderBar_lay_Widget.png',
+    'assets/images/avatars/AvatarPortrait_Cuirassier_Widget.png',
+    'assets/images/avatars/AvatarPortrait_DameofHearts_Widget.png',
+    'assets/images/avatars/AvatarPortrait_GodofFortuneLNY24_Widget.png',
+    'assets/images/avatars/AvatarPortrait_GoldHunt_legendary_Widget.png',
+    'assets/images/avatars/AvatarPortrait_GoldHunt_epic_Widget.png',
+    'assets/images/avatars/AvatarPortrait_GoldHunt_rare_Widget.png',
+    'assets/images/avatars/AvatarPortrait_HambiCoal_Widget.png',
+    'assets/images/avatars/AvatarPortrait_HarmonyKeeperLNY24_Widget.png',
+    'assets/images/avatars/AvatarPortrait_JamesWhite_Widget.png',
+    'assets/images/avatars/AvatarPortrait_Jinjoo_Widget.png',
+    'assets/images/avatars/AvatarPortrait_JoHa_sano_Widget.png',
+    'assets/images/avatars/AvatarPortrait_KorKoreto_Widget.png',
+    'assets/images/avatars/AvatarPortrait_LadySenna_Widget.png',
+    'assets/images/avatars/AvatarPortrait_LeeKyungSoo_Widget.png',
+    'assets/images/avatars/AvatarPortrait_LongFei_Widget.png',
+    'assets/images/avatars/AvatarPortrait_MinjiKang_Widget.png',
+    'assets/images/avatars/AvatarPortrait_ModernMarine_Widget.png',
+    'assets/images/avatars/AvatarPotrait_SakuraGirl_Widget.png'
 ];
 
 // Player-specific avatar mapping (for known players)
 const playerAvatars = {
-    'alice': 'Avatars/AvatarPortrait_AliceRichardson_Widget.png',
-    'commander': 'Avatars/AvatarPortrait_CommanderBar_lay_Widget.png',
-    'centurion': 'Avatars/AvatarPortrait_Centurion_Widget.png',
-    'senna': 'Avatars/AvatarPortrait_LadySenna_Widget.png',
-    'marine': 'Avatars/AvatarPortrait_ModernMarine_Widget.png',
-    'dame': 'Avatars/AvatarPortrait_DameofHearts_Widget.png',
-    'fortune': 'Avatars/AvatarPortrait_GodofFortuneLNY24_Widget.png',
-    'beardy': 'Avatars/AvatarPortrait_BeardyTrickster_Widget.png',
-    'cuirassier': 'Avatars/AvatarPortrait_Cuirassier_Widget.png',
-    'lee': 'Avatars/AvatarPortrait_LeeKyungSoo_Widget.png',
-    'jinjoo': 'Avatars/AvatarPortrait_Jinjoo_Widget.png',
-    'sakura': 'Avatars/AvatarPotrait_SakuraGirl_Widget.png',
-    'amanda': 'Avatars/AvatarPortrait_AmandaGarciaLee_Widget.png',
-    'cesar': 'Avatars/AvatarPortrait_CesarMeyer_Widget.png',
-    'christopher': 'Avatars/AvatarPortrait_ChristopherLee_Widget.png',
-    'chuanlin': 'Avatars/AvatarPortrait_ChuanlinFu_Widget.png',
-    'hambi': 'Avatars/AvatarPortrait_HambiCoal_Widget.png',
-    'harmony': 'Avatars/AvatarPortrait_HarmonyKeeperLNY24_Widget.png',
-    'james': 'Avatars/AvatarPortrait_JamesWhite_Widget.png',
-    'joha': 'Avatars/AvatarPortrait_JoHa_sano_Widget.png',
-    'kor': 'Avatars/AvatarPortrait_KorKoreto_Widget.png',
-    'longfei': 'Avatars/AvatarPortrait_LongFei_Widget.png',
-    'minji': 'Avatars/AvatarPortrait_MinjiKang_Widget.png'
+    'alice': 'assets/images/avatars/AvatarPortrait_AliceRichardson_Widget.png',
+    'commander': 'assets/images/avatars/AvatarPortrait_CommanderBar_lay_Widget.png',
+    'centurion': 'assets/images/avatars/AvatarPortrait_Centurion_Widget.png',
+    'senna': 'assets/images/avatars/AvatarPortrait_LadySenna_Widget.png',
+    'marine': 'assets/images/avatars/AvatarPortrait_ModernMarine_Widget.png',
+    'dame': 'assets/images/avatars/AvatarPortrait_DameofHearts_Widget.png',
+    'fortune': 'assets/images/avatars/AvatarPortrait_GodofFortuneLNY24_Widget.png',
+    'beardy': 'assets/images/avatars/AvatarPortrait_BeardyTrickster_Widget.png',
+    'cuirassier': 'assets/images/avatars/AvatarPortrait_Cuirassier_Widget.png',
+    'lee': 'assets/images/avatars/AvatarPortrait_LeeKyungSoo_Widget.png',
+    'jinjoo': 'assets/images/avatars/AvatarPortrait_Jinjoo_Widget.png',
+    'sakura': 'assets/images/avatars/AvatarPotrait_SakuraGirl_Widget.png',
+    'amanda': 'assets/images/avatars/AvatarPortrait_AmandaGarciaLee_Widget.png',
+    'cesar': 'assets/images/avatars/AvatarPortrait_CesarMeyer_Widget.png',
+    'christopher': 'assets/images/avatars/AvatarPortrait_ChristopherLee_Widget.png',
+    'chuanlin': 'assets/images/avatars/AvatarPortrait_ChuanlinFu_Widget.png',
+    'hambi': 'assets/images/avatars/AvatarPortrait_HambiCoal_Widget.png',
+    'harmony': 'assets/images/avatars/AvatarPortrait_HarmonyKeeperLNY24_Widget.png',
+    'james': 'assets/images/avatars/AvatarPortrait_JamesWhite_Widget.png',
+    'joha': 'assets/images/avatars/AvatarPortrait_JoHa_sano_Widget.png',
+    'kor': 'assets/images/avatars/AvatarPortrait_KorKoreto_Widget.png',
+    'longfei': 'assets/images/avatars/AvatarPortrait_LongFei_Widget.png',
+    'minji': 'assets/images/avatars/AvatarPortrait_MinjiKang_Widget.png'
 };
 
 // Track used avatars to ensure variety
 let usedAvatars = new Set();
+
+// Parse date from MM-DD-YYYY format (US format)
+function parseDate(dateStr) {
+    const [month, day, year] = dateStr.split('-');
+    return new Date(year, parseInt(month) - 1, parseInt(day));
+}
 
 // Get avatar for player with variety
 function getAvatarForPlayer(name) {
@@ -99,80 +108,175 @@ function getAvatarForPlayer(name) {
     return selectedAvatar;
 }
 
-// Populate champions grid
+// Populate champions grid - Top 10 players by FIRST PLACE WINS for 2025
 function populateChampions(data) {
     const grid = document.getElementById('championsGrid');
     
     // Reset used avatars for fresh variety
     usedAvatars.clear();
     
-    // Calculate tournament participation and podium finishes per player
+    console.log('Populating champions with data entries:', data.length);
+    
+    // Count wins and tournament participations per player
     const playerStats = {};
     data.forEach(entry => {
-        if (!playerStats[entry.name]) {
-            playerStats[entry.name] = { 
-                name: entry.name, 
-                tournaments: 0, 
-                firstPlace: 0, 
-                secondPlace: 0, 
+        const playerName = entry.name;
+        const position = parseInt(entry.position);
+        
+        if (!playerStats[playerName]) {
+            playerStats[playerName] = {
+                name: playerName,
+                totalTournaments: 0,
+                firstPlace: 0,
+                secondPlace: 0,
                 thirdPlace: 0,
-                totalPoints: 0
+                fourthPlace: 0
             };
         }
-        playerStats[entry.name].tournaments++;
         
-        // Award points based on position (1st = 3 points, 2nd = 2 points, 3rd = 1 point)
-        if (entry.position === 1) {
-            playerStats[entry.name].firstPlace++;
-            playerStats[entry.name].totalPoints += 3;
-        } else if (entry.position === 2) {
-            playerStats[entry.name].secondPlace++;
-            playerStats[entry.name].totalPoints += 2;
-        } else if (entry.position === 3) {
-            playerStats[entry.name].thirdPlace++;
-            playerStats[entry.name].totalPoints += 1;
+        // Count total tournaments participated
+        playerStats[playerName].totalTournaments++;
+        
+        // Count by position
+        if (position === 1) {
+            playerStats[playerName].firstPlace++;
+        } else if (position === 2) {
+            playerStats[playerName].secondPlace++;
+        } else if (position === 3) {
+            playerStats[playerName].thirdPlace++;
+        } else if (position === 4) {
+            playerStats[playerName].fourthPlace++;
         }
     });
     
-    // Sort by total points (1st place = 3 points, 2nd = 2 points, 3rd = 1 point)
-    const topChampions = Object.values(playerStats).sort((a, b) => b.totalPoints - a.totalPoints).slice(0, 12);
+    console.log('Player stats calculated:', Object.keys(playerStats).length, 'players');
     
-    grid.innerHTML = topChampions.map(player => {
+    // Sort by FIRST PLACE WINS (primary), then total tournaments (secondary)
+    const topPlayers = Object.values(playerStats)
+        .filter(player => player.firstPlace > 0) // Only show players with at least 1 win
+        .sort((a, b) => {
+            if (b.firstPlace !== a.firstPlace) {
+                return b.firstPlace - a.firstPlace; // Sort by wins first
+            }
+            return b.totalTournaments - a.totalTournaments; // Then by total tournaments
+        })
+        .slice(0, 10);
+    
+    console.log('Top 10 winners:', topPlayers.map(p => `${p.name}: ${p.firstPlace} wins`));
+    
+    if (topPlayers.length === 0) {
+        grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #94a3b8;">
+                <h3>No champions data available</h3>
+                <p>Win data will appear here</p>
+            </div>
+        `;
+        return;
+    }
+    
+    grid.innerHTML = topPlayers.map((player, index) => {
         const avatar = getAvatarForPlayer(player.name);
-        const podiumText = `${player.firstPlace}🏆 ${player.secondPlace}🥈 ${player.thirdPlace}🥉`;
+        const rankDisplay = index + 1;
+        const winsText = player.firstPlace === 1 ? '1 Win' : `${player.firstPlace} Wins`;
+        
+        // Get unit icon based on rank
+        let rankUnitIcon;
+        if (index === 0) {
+            rankUnitIcon = 'assets/images/units/Carrier.png'; // Rank 1
+        } else if (index === 1) {
+            rankUnitIcon = 'assets/images/units/Battleship.png'; // Rank 2
+        } else if (index === 2) {
+            rankUnitIcon = 'assets/images/units/AssaultCarrier.png'; // Rank 3
+        } else if (index < 5) {
+            rankUnitIcon = 'assets/images/units/Cruiser.png'; // Rank 4-5
+        } else if (index < 10) {
+            rankUnitIcon = 'assets/images/units/Destroyer.png'; // Rank 6-10
+        } else {
+            rankUnitIcon = 'assets/images/units/Frigate.png'; // Rank 11+
+        }
+        
+        // Build placement breakdown
+        const placements = [];
+        if (player.firstPlace > 0) placements.push(`🥇${player.firstPlace}`);
+        if (player.secondPlace > 0) placements.push(`🥈${player.secondPlace}`);
+        if (player.thirdPlace > 0) placements.push(`🥉${player.thirdPlace}`);
+        if (player.fourthPlace > 0) placements.push(`4️⃣${player.fourthPlace}`);
+        const placementText = placements.join(' ');
+        
         return `
             <div class="champion-card">
+                <div class="champion-rank">
+                    <img src="${rankUnitIcon}" alt="Rank ${rankDisplay}" class="rank-unit-icon">
+                    #${rankDisplay}
+                </div>
                 <img src="${avatar}" alt="${player.name}" class="champion-avatar" 
-                     onerror="this.src='${defaultAvatar}'">
+                     onerror="this.src='assets/images/avatars/AvatarPortrait_ModernMarine_Widget.png'">
                 <p class="champion-name">${player.name}</p>
-                <div class="champion-stats">${podiumText}</div>
-                <div class="champion-stats">${player.totalPoints} pts • ${player.tournaments} tours</div>
+                <div class="champion-stats">🏆 ${winsText}</div>
+                <div class="champion-stats">${placementText}</div>
+                <div class="champion-stats">${player.totalTournaments} Total Tournaments</div>
             </div>
         `;
     }).join('');
 }
 
-// Populate tournament history with filtering and pagination
+// Populate tournament history with conditional pagination
 function populateTournamentHistory(filter = 'all', page = 1) {
     const container = document.getElementById('tournamentHistory');
     
-    // Get tournament info from CSV reader if available, otherwise from global variable
+    // Get tournament info from JSON data
     let tournamentData = [];
-    if (csvReader && csvReader.getTournamentInfo()) {
-        tournamentData = csvReader.getTournamentInfo();
-    } else if (typeof tournamentInfo !== 'undefined' && tournamentInfo.length > 0) {
-        tournamentData = tournamentInfo;
+    if (allTournaments && allTournaments.length > 0) {
+        tournamentData = allTournaments;
     }
     
     if (tournamentData.length > 0) {
-        allTournaments = tournamentData;
+        // Group tournaments by date and name to get unique tournaments
+        const tournamentMap = new Map();
+        
+        tournamentData.forEach(entry => {
+            const tourName = entry.tourName || entry.tour_name || '';
+            const tourType = entry.tourType || entry.tour_type || 'Main Tour';
+            
+            // Use date as the primary key, and find the best tournament name for this date
+            const dateKey = entry.date;
+            
+            if (!tournamentMap.has(dateKey)) {
+                tournamentMap.set(dateKey, {
+                    date: entry.date,
+                    tourName: tourName, // Will be updated if we find a better name
+                    tourType: tourType,
+                    winners: []
+                });
+            }
+            
+            // If this entry has a tournament name and the current one is empty, update it
+            const currentTournament = tournamentMap.get(dateKey);
+            if (tourName && tourName.trim() !== '' && (!currentTournament.tourName || currentTournament.tourName.trim() === '')) {
+                currentTournament.tourName = tourName;
+                currentTournament.tourType = tourType;
+            }
+            
+            currentTournament.winners.push({
+                name: entry.name,
+                position: entry.position
+            });
+        });
+        
+        // Convert map to array and sort winners by position
+        let uniqueTournaments = Array.from(tournamentMap.values()).map(tournament => {
+            tournament.winners.sort((a, b) => a.position - b.position);
+            return tournament;
+        });
         
         // Filter tournaments by month
-        let filteredTournaments = tournamentData;
+        let filteredTournaments = uniqueTournaments;
         if (filter !== 'all') {
-            filteredTournaments = tournamentData.filter(tournament => {
-                const tournamentMonth = tournament.date.split('-')[1];
-                return tournamentMonth === filter;
+            filteredTournaments = uniqueTournaments.filter(tournament => {
+                // Date format is MM-DD-YYYY (US format)
+                const [month, day, year] = tournament.date.split('-');
+                const paddedMonth = month.padStart(2, '0');
+                return paddedMonth === filter;
             });
         }
         
@@ -180,57 +284,72 @@ function populateTournamentHistory(filter = 'all', page = 1) {
             container.innerHTML = `
                 <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #94a3b8;">
                     <h3>No tournaments found for this month</h3>
-                    <p>Try selecting a different month or "All Months"</p>
+                    <p>Try selecting a different month or "All Tournaments"</p>
                 </div>
             `;
             return;
         }
         
         // Sort by date (newest first)
-        filteredTournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
+        filteredTournaments.sort((a, b) => {
+            const dateA = parseDate(a.date);
+            const dateB = parseDate(b.date);
+            return dateB - dateA;
+        });
         
-        // Calculate pagination
-        const totalPages = Math.ceil(filteredTournaments.length / ITEMS_PER_PAGE);
-        const startIndex = (page - 1) * ITEMS_PER_PAGE;
-        const endIndex = startIndex + ITEMS_PER_PAGE;
-        const paginatedTournaments = filteredTournaments.slice(startIndex, endIndex);
+        // Apply pagination only for "All Tournaments"
+        let tournamentsToShow = filteredTournaments;
+        let totalPages = 1;
+        
+        if (filter === 'all') {
+            // Pagination for "All Tournaments" - 6 tournaments per page
+            totalPages = Math.ceil(filteredTournaments.length / 6);
+            const startIndex = (page - 1) * 6;
+            const endIndex = startIndex + 6;
+            tournamentsToShow = filteredTournaments.slice(startIndex, endIndex);
+        }
         
         // Generate tournament cards
-        const tournamentCards = paginatedTournaments.map(tournament => {
-            const typeClass = tournament.type.toLowerCase().replace(' ', '');
-            const typeShort = tournament.type.split(' ')[0];
-            const tournamentDate = new Date(tournament.date);
+        const tournamentCards = tournamentsToShow.map(tournament => {
+            const typeClass = tournament.tourType.toLowerCase().replace(/\s+/g, '-');
+            const typeShort = tournament.tourType.split(' ')[0];
+            // Date format is MM-DD-YYYY (US format)
+            const [month, day, year] = tournament.date.split('-');
+            const tournamentDate = new Date(year, month - 1, day);
             const monthName = tournamentDate.toLocaleDateString('en-US', { month: 'long' });
-            const day = tournamentDate.getDate();
-            const year = tournamentDate.getFullYear();
+            
+            // Build winners list (top 3)
+            const winnersList = tournament.winners.slice(0, 3).map(winner => {
+                const medals = ['🥇', '🥈', '🥉'];
+                return `
+                    <div class="winner-item">
+                        <div class="winner-position">${medals[winner.position - 1] || `#${winner.position}`}</div>
+                        <div class="winner-name">${winner.name}</div>
+                    </div>
+                `;
+            }).join('');
             
             return `
-                <div class="tournament-card" data-month="${tournament.date.split('-')[1]}">
-                    <h3 class="tournament-title">${tournament.name}</h3>
+                <div class="tournament-card" data-month="${month.padStart(2, '0')}">
+                    <h3 class="tournament-title">${tournament.tourName || `Tournament ${monthName} ${parseInt(day)}`}</h3>
                     <div class="tournament-meta">
-                        <span class="tournament-date">${monthName} ${day}, ${year}</span>
+                        <span class="tournament-date">${monthName} ${parseInt(day)}, ${year}</span>
                         <span class="tournament-type ${typeClass}">${typeShort}</span>
                     </div>
                     <div class="winners-list">
-                        ${tournament.winners.map((winner, index) => {
-                            const winnerName = typeof winner === 'string' ? winner : winner.name;
-                            const position = typeof winner === 'object' && winner.position ? winner.position : index + 1;
-                            return `
-                                <div class="winner-item">
-                                    <div class="winner-position">#${position}</div>
-                                    <div class="winner-name">${winnerName}</div>
-                                </div>
-                            `;
-                        }).join('')}
+                        ${winnersList}
                     </div>
                 </div>
             `;
         }).join('');
         
-        // Generate pagination controls
-        const paginationControls = generatePaginationControls(page, totalPages, 'tournament');
+        // Add pagination controls only for "All Tournaments"
+        let paginationControls = '';
+        if (filter === 'all' && totalPages > 1) {
+            paginationControls = generatePaginationControls(page, totalPages, 'tournament');
+        }
         
-        // Combine tournament cards and pagination
+        // Display tournament cards with conditional pagination
         container.innerHTML = tournamentCards + paginationControls;
         
     } else {
@@ -341,12 +460,24 @@ function populateLeaderboard(data, page = 1) {
     // Generate table rows
     const tableRows = paginatedData.map((player, index) => {
         const globalIndex = startIndex + index; // Global rank
-        const rankIcon = globalIndex < 3 ? 'Titles/Legend.png' : 
-                        globalIndex < 5 ? 'Titles/Hero.png' : 
-                        'Titles/Hero.png';
         
-        const podiumFinishes = player.firstPlace + player.secondPlace + player.thirdPlace;
-        const podiumRate = player.tournaments > 0 ? ((podiumFinishes / player.tournaments) * 100).toFixed(1) + '%' : '0%';
+        // Use unit materials as rank icons based on rank
+        let rankIcon;
+        if (globalIndex === 0) {
+            rankIcon = 'assets/images/units/Carrier.png'; // Rank 1 - Carrier (highest)
+        } else if (globalIndex === 1) {
+            rankIcon = 'assets/images/units/Battleship.png'; // Rank 2 - Battleship
+        } else if (globalIndex === 2) {
+            rankIcon = 'assets/images/units/AssaultCarrier.png'; // Rank 3 - AssaultCarrier
+        } else if (globalIndex < 5) {
+            rankIcon = 'assets/images/units/Cruiser.png'; // Rank 4-5 - Cruiser
+        } else if (globalIndex < 10) {
+            rankIcon = 'assets/images/units/Destroyer.png'; // Rank 6-10 - Destroyer
+        } else if (globalIndex < 20) {
+            rankIcon = 'assets/images/units/Frigate.png'; // Rank 11-20 - Frigate
+        } else {
+            rankIcon = 'assets/images/units/Corvette.png'; // Rank 21+ - Corvette
+        }
         
         return `
             <tr>
@@ -355,9 +486,7 @@ function populateLeaderboard(data, page = 1) {
                     #${globalIndex + 1}
                 </td>
                 <td>${player.name}</td>
-                <td>${player.totalPoints}</td>
                 <td>${player.tournaments}</td>
-                <td>${podiumRate}</td>
             </tr>
         `;
     }).join('');
@@ -374,9 +503,7 @@ function populateLeaderboard(data, page = 1) {
                     <tr>
                         <th>RANK</th>
                         <th>DISCORD NAME</th>
-                        <th>TOTAL POINTS</th>
                         <th>TOURNAMENTS</th>
-                        <th>PODIUM RATE</th>
                     </tr>
                 </thead>
                 <tbody id="leaderboardBody">
@@ -392,29 +519,23 @@ function populateLeaderboard(data, page = 1) {
 
 // Update stats in header
 function updateStats(data) {
-    let stats;
+    // Calculate stats
+    // Group unique tournaments by date + name
+    const uniqueTournaments = new Set();
+    data.forEach(entry => {
+        const tourName = entry.tourName || entry.tour_name || 'Tournament';
+        const key = `${entry.date}_${tourName}`;
+        uniqueTournaments.add(key);
+    });
     
-    // Try to get stats from CSV reader if available
-    if (csvReader && csvReader.getStatistics()) {
-        stats = csvReader.getStatistics();
-    } else {
-        // Calculate stats manually
-        const uniquePlayers = [...new Set(data.map(p => p.name))];
-        const totalTournaments = [...new Set(data.map(p => p.tourName))].length;
-        const totalPodiums = data.length; // Each entry is a podium finish (1st, 2nd, or 3rd)
-        const champions = [...new Set(data.filter(p => p.position === 1).map(p => p.name))];
-        
-        stats = {
-            activePlayers: uniquePlayers.length,
-            totalTournaments: totalTournaments,
-            totalPodiums: totalPodiums,
-            totalChampions: champions.length
-        };
-    }
+    const stats = {
+        activePlayers: 11210, // Hardcoded as requested
+        totalTournaments: uniqueTournaments.size, // Count unique tournaments
+        totalChampions: [...new Set(data.filter(p => p.position === 1).map(p => p.name))].length // Count unique winners
+    };
     
     animateValue('activePlayers', 0, stats.activePlayers, 2000);
     animateValue('totalTournaments', 0, stats.totalTournaments, 2000);
-    animateValue('totalPodiums', 0, stats.totalPodiums, 2000);
     animateValue('totalChampions', 0, stats.totalChampions, 2000);
 }
 
@@ -437,12 +558,66 @@ function animateValue(elementId, start, end, duration) {
     window.requestAnimationFrame(step);
 }
 
+// Update month filter buttons with tournament counts
+function updateMonthFilterCounts() {
+    if (!allTournaments || allTournaments.length === 0) return;
+    
+    // Count unique tournaments per month
+    const monthCounts = {};
+    const monthTournaments = new Map();
+    
+    allTournaments.forEach(entry => {
+        // Date format is MM-DD-YYYY (US format)
+        const [month, day, year] = entry.date.split('-');
+        const paddedMonth = month.padStart(2, '0');
+        
+        // Use date as key (not date + name) to avoid splitting tournaments
+        const key = entry.date;
+        
+        if (!monthTournaments.has(paddedMonth)) {
+            monthTournaments.set(paddedMonth, new Set());
+        }
+        monthTournaments.get(paddedMonth).add(key);
+    });
+    
+    // Convert to counts
+    monthTournaments.forEach((tournaments, month) => {
+        monthCounts[month] = tournaments.size;
+    });
+    
+    // Update button text with counts
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(btn => {
+        const month = btn.getAttribute('data-month');
+        if (month === 'all') {
+            const totalTournaments = new Set(allTournaments.map(e => e.date)).size;
+            btn.innerHTML = `All Tournaments <span class="month-count">(${totalTournaments})</span>`;
+        } else {
+            const count = monthCounts[month] || 0;
+            const monthName = btn.textContent.split('(')[0].trim(); // Preserve original name
+            
+            if (count > 0) {
+                btn.innerHTML = `${monthName} <span class="month-count">(${count})</span>`;
+                btn.disabled = false;
+                btn.classList.remove('disabled');
+            } else {
+                btn.innerHTML = `${monthName} <span class="month-count-zero">(0)</span>`;
+                btn.disabled = true;
+                btn.classList.add('disabled');
+            }
+        }
+    });
+}
+
 // Setup month filter functionality
 function setupMonthFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
+            // Don't allow clicking disabled buttons
+            if (btn.disabled) return;
+            
             // Remove active class from all buttons
             filterButtons.forEach(b => b.classList.remove('active'));
             
@@ -493,38 +668,97 @@ function setupAutoRefresh() {
     }, 300000);
 }
 
-// Load data from CSV file or fallback to local data
+// Load tournament data from CSV or JSON
 async function loadTournamentData() {
+    const loadingEl = document.querySelector('.loading');
+    if (loadingEl) loadingEl.style.display = 'flex';
+
     try {
-        console.log('Loading tournament data...');
+        let tournaments = [];
         
-        // Try to load from CSV file first if USE_CSV_FILE is true
-        if (USE_CSV_FILE) {
-            console.log('Attempting to load from CSV file:', CSV_FILE_PATH);
+        // Priority 1: Try clean JSON file (Python-parsed, most reliable)
+        try {
+            console.log('Attempting to load clean JSON:', CLEAN_JSON_PATH);
+            const cleanRes = await fetch(CLEAN_JSON_PATH);
             
-            if (!csvReader) {
-                csvReader = new CSVDataReader(CSV_FILE_PATH);
+            if (cleanRes.ok) {
+                const cleanData = await cleanRes.json();
+                if (Array.isArray(cleanData) && cleanData.length > 0) {
+                    console.log('✅ Clean JSON loaded successfully:', cleanData.length, 'entries');
+                    tournaments = cleanData;
+                    csvData = cleanData;
+                }
             }
-            
-            const csvData = await csvReader.loadCSVFile();
-            if (csvData && csvData.length > 0) {
-                console.log('Successfully loaded CSV data:', csvData.length, 'entries');
-                return csvData;
+        } catch (cleanJsonError) {
+            console.log('Clean JSON not available, trying other sources...');
+        }
+        
+        // Priority 2: Try loading from CSV file if enabled and clean JSON didn't work
+        if (tournaments.length === 0 && USE_CSV_FILE) {
+            try {
+                console.log('Loading data from CSV:', CSV_FILE_PATH);
+                
+                // Initialize CSV reader if not already done
+                if (!csvReader) {
+                    csvReader = new CSVDataReader(CSV_FILE_PATH);
+                }
+                
+                // Load CSV data
+                const csvParsedData = await csvReader.loadCSVFile();
+                
+                if (csvParsedData && csvParsedData.length > 0) {
+                    console.log('CSV loaded successfully:', csvParsedData.length, 'entries');
+                    tournaments = csvParsedData;
+                    csvData = csvParsedData; // Store globally
+                }
+            } catch (csvError) {
+                console.error('CSV loading failed, trying JSON fallback:', csvError);
             }
         }
         
-        // Fallback to local serverData if available
-        if (typeof serverData !== 'undefined' && serverData.length > 0) {
-            console.log('Using fallback data from server-data.js:', serverData.length, 'entries');
-            return serverData;
+        // Priority 3: Try structured JSON from data folder
+        if (tournaments.length === 0) {
+            console.log('Attempting to fetch tournament data from JSON:', TOURNAMENT_DATA_PATH);
+            try {
+                const res = await fetch(TOURNAMENT_DATA_PATH);
+                
+                if (res.ok) {
+                    const json = await res.json();
+                    // Convert JSON month/week structure to flat array
+                    for (const [monthYear, weeks] of Object.entries(json)) {
+                        for (const [week, entries] of Object.entries(weeks)) {
+                            if (Array.isArray(entries)) {
+                                tournaments.push(...entries);
+                            }
+                        }
+                    }
+                    console.log('Loaded tournament data from JSON:', tournaments.length, 'entries');
+                }
+            } catch (jsonError) {
+                console.error('JSON loading also failed:', jsonError);
+            }
         }
         
-        // If no data found anywhere
-        console.log('No tournament data found. Please check your CSV file or server-data.js');
-        return [];
+        if (tournaments.length === 0) {
+            throw new Error('No data could be loaded from any source (Clean JSON, CSV, or JSON)');
+        }
+
+        // Store the tournaments globally
+        allTournaments = tournaments;
         
+        if (loadingEl) loadingEl.style.display = 'none';
+        return tournaments;
     } catch (error) {
-        console.error('Error loading data:', error);
+        console.error('Error loading tournament data:', error);
+        if (loadingEl) {
+            loadingEl.innerHTML = `
+                <p>Error loading tournament data. Please try refreshing the page.</p>
+                <button onclick="refreshData()" class="refresh-btn">
+                    <span class="btn-icon">🔄</span>
+                    RETRY
+                </button>
+            `;
+        }
         return [];
     }
 }
@@ -551,10 +785,11 @@ async function loadData() {
         console.log('Loading data:', data.length, 'tournament entries');
         
         populateChampions(data);
-        populateTournamentHistory(currentFilter);
-        populateLeaderboard(data);
+        populateTournamentHistory(currentFilter, currentTournamentPage);
+        // populateLeaderboard(data); // Removed - no leaderboard section in HTML
         updateStats(data);
         updateLastUpdatedTime();
+        updateMonthFilterCounts(); // Update month filter buttons with counts
         
     } catch (error) {
         console.error('Error loading data:', error);
@@ -566,14 +801,13 @@ function refreshData() {
     console.log('Manual refresh triggered...');
     loadData();
     updateLastUpdatedTime();
-    
     // Show refresh feedback
     const refreshBtn = document.querySelector('button[onclick="refreshData()"]');
     if (refreshBtn) {
         const originalText = refreshBtn.textContent;
         refreshBtn.textContent = '✅ UPDATED';
         refreshBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-        
+
         setTimeout(() => {
             refreshBtn.textContent = originalText;
             refreshBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
@@ -581,37 +815,9 @@ function refreshData() {
     }
 }
 
-// Add scroll animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, observerOptions);
-
-document.querySelectorAll('.animate-in').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(50px)';
-    el.style.transition = 'all 0.8s ease-out';
-    observer.observe(el);
+// Initialize the application when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing tournament hub...');
+    setupMonthFilters();
+    setupAutoRefresh();
 });
-
-// Initialize on page load
-window.addEventListener('load', () => {
-    console.log('Page loaded, initializing...');
-    
-    // Wait a bit for server-data.js to load
-    setTimeout(() => {
-        loadData();
-        setupMonthFilters();
-        setupAutoRefresh();
-    }, 100);
-});
-

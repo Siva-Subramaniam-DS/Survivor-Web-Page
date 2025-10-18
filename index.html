@@ -10,30 +10,26 @@
     <!-- Header Section -->
     <header class="header">
         <div class="header-content">
-            <img src="logo.gif" alt="M47W Logo" class="logo">
+            <img src="assets/images/logo.gif" alt="M47W Logo" class="logo">
             <h1>M47W - SurvivoR</h1>
             <p class="tagline">
-                <img src="Icons/Leonardo_Kino_XL_skull_with_sword_in_silver_metal_circle_badge_1.png" alt="Elite" class="section-icon">
+                <img src="assets/images/icons/Leonardo_Kino_XL_skull_with_sword_in_silver_metal_circle_badge_1.png" alt="Elite" class="section-icon">
                 ELITE TOURNAMENT HUB
-                <img src="Icons/Leonardo_Kino_XL_skull_with_sword_in_silver_metal_circle_badge_1.png" alt="Tournament" class="section-icon">
+                <img src="assets/images/icons/Leonardo_Kino_XL_skull_with_sword_in_silver_metal_circle_badge_1.png" alt="Tournament" class="section-icon">
             </p>
             
             <div class="stats-bar">
                 <div class="stat-item">
-                    <span class="stat-label">ACTIVE PLAYERS</span>
-                    <span class="stat-value" id="activePlayers">0</span>
+                    <span class="stat-label">MEMBERS</span>
+                    <span class="stat-value" id="activePlayers">11,210</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">TOURNAMENTS</span>
-                    <span class="stat-value" id="totalTournaments">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">PODIUM FINISHES</span>
-                    <span class="stat-value" id="totalPodiums">0</span>
+                    <span class="stat-value" id="totalTournaments">57</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">CHAMPIONS</span>
-                    <span class="stat-value" id="totalChampions">0</span>
+                    <span class="stat-value" id="totalChampions">215</span>
                 </div>
             </div>
         </div>
@@ -44,40 +40,45 @@
             <!-- Premium Offers Section -->
         <section class="offers-section animate-in">
             <h2 class="section-header">
-                <img src="Icons/Booster_Pass.png" alt="Premium" class="section-icon">
+                <img src="assets/images/icons/Booster_Pass.png" alt="Premium" class="section-icon">
                 PREMIUM REWARDS
                 <img src="Icons/Booster_Pass.png" alt="Rewards" class="section-icon">
             </h2>
             <div class="offers-grid">
                 <div class="offer-card">
-                    <img src="Prize/goldOffer_6.png" alt="Gold Offer" class="offer-icon">
+                    <img src="assets/images/prizes/goldOffer_6.png" alt="Gold Offer" class="offer-icon">
                     <h3 class="offer-title">Gold Package</h3>
                     <p class="offer-description">Boost your in-game currency instantly</p>
                 </div>
                 <div class="offer-card">
-                    <img src="Prize/artcoinOffer_6.png" alt="Artcoin Offer" class="offer-icon">
+                    <img src="assets/images/prizes/artcoinOffer_6.png" alt="Artcoin Offer" class="offer-icon">
                     <h3 class="offer-title">ArtCoin Bundle</h3>
                     <p class="offer-description">Special currency for unique items</p>
                 </div>
                 <div class="offer-card">
-                    <img src="Prize/upgradeoffer_3.png" alt="Upgrade Points" class="offer-icon">
+                    <img src="assets/images/prizes/upgradeoffer_3.png" alt="Upgrade Points" class="offer-icon">
                     <h3 class="offer-title">Upgrade Points</h3>
                     <p class="offer-description">Level up faster with bonus points</p>
                 </div>
                 <div class="offer-card">
-                    <img src="Prize/premiumAccount.png" alt="30 Day Premium" class="offer-icon">
+                    <img src="assets/images/prizes/premiumAccount.png" alt="30 Day Premium" class="offer-icon">
                     <h3 class="offer-title">30 Day Premium</h3>
                     <p class="offer-description">Trial the premium experience</p>
                 </div>
                 <div class="offer-card">
-                    <img src="Titles/Legend.png" alt="Legend Status" class="offer-icon">
+                    <img src="assets/images/titles/Legend.png" alt="Legend Status" class="offer-icon">
                     <h3 class="offer-title">Legend Status</h3>
                     <p class="offer-description">Join the elite legendary ranks</p>
                 </div>
                 <div class="offer-card">
-                    <img src="Titles/Hero.png" alt="Hero Status" class="offer-icon">
+                    <img src="assets/images/titles/Hero.png" alt="Hero Status" class="offer-icon">
                     <h3 class="offer-title">Hero Status</h3>
                     <p class="offer-description">Join the elite Heros ranks</p>
+                </div>
+                <div class="offer-card">
+                    <img src="assets/images/prizes/ny24_rare_lootbox_ticket.png" alt="Gacha" class="offer-icon">
+                    <h3 class="offer-title">Gacha Prize</h3>
+                    <p class="offer-description">Win the chance to get a random prize</p>
                 </div>
             </div>
         </section>
@@ -86,7 +87,7 @@
         <!-- Champions Gallery Section -->
         <section class="champions-section animate-in">
             <h2 class="section-header">
-                <img src="Icons/Screenshot_2024-09-12_170150-removebg-preview.png" alt="Champions" class="section-icon">
+                <img src="assets/images/icons/Screenshot_2024-09-12_170150-removebg-preview.png" alt="Champions" class="section-icon">
                 HALL OF CHAMPIONS
                 <img src="Icons/Screenshot_2024-09-12_170150-removebg-preview.png" alt="Elite" class="section-icon">
             </h2>
@@ -101,7 +102,7 @@
         <!-- Tournament History Section -->
         <section class="tournament-section animate-in">
             <h2 class="section-header">
-                <img src="Icons/Survivor hero.png" alt="Tournament" class="section-icon">
+                <img src="assets/images/icons/Survivor hero.png" alt="Tournament" class="section-icon">
                 TOURNAMENT HISTORY 2025
                 <img src="Icons/Survivor hero.png" alt="History" class="section-icon">
             </h2>
@@ -112,13 +113,23 @@
                 <div class="timestamp" id="lastUpdated">Loading...</div>
                 <div class="refresh-indicator">
                     <div class="pulse"></div>
-                    <span>Auto-refresh enabled</span>
+                    <span>Auto-updates every 5 minutes</span>
                 </div>
+                <button onclick="refreshData()" class="refresh-btn">
+                    <span class="btn-icon">🔄</span>
+                    REFRESH NOW
+                </button>
             </div>
             
+            <!-- Loading indicator -->
+            <div class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Loading tournament data...</p>
+            </div>
+
             <!-- Month Filters -->
             <div class="month-filters">
-                <button class="filter-btn active" data-month="all">All Months</button>
+                <button class="filter-btn active" data-month="all">All Tournaments</button>
                 <button class="filter-btn" data-month="01">January</button>
                 <button class="filter-btn" data-month="02">February</button>
                 <button class="filter-btn" data-month="03">March</button>
@@ -146,23 +157,23 @@
         <!-- Tournament Registration Section -->
         <section class="registration-section animate-in">
             <h2 class="section-header">
-                <img src="Icons/Survivor hero.png" alt="Registration" class="section-icon">
+                <img src="assets/images/icons/Survivor hero.png" alt="Registration" class="section-icon">
                 TOURNAMENT REGISTRATION
-                <img src="Icons/screenshot_2024-09-13_070958-removebg-preview.png" alt="Elite" class="section-icon">
+                <img src="assets/images/icons/screenshot_2024-09-13_070958-removebg-preview.png" alt="Elite" class="section-icon">
             </h2>
             <div class="registration-buttons">
-                <a href="https://discord.com/channels/1050414982417887283/1210456226505170964" target="_blank" class="registration-btn saturday-btn">
+                <a href="https://discord.com/channels/1050414982417887283/1210456226505170964" target="_blank" rel="noopener" class="registration-btn saturday-btn">
                     <div class="btn-icon">
-                        <img src="Icons/Survivor hero.png" alt="Saturday" class="btn-icon-img">
+                        <img src="assets/images/icons/Survivor hero.png" alt="Saturday" class="btn-icon-img">
                     </div>
                     <div class="btn-content">
                         <h3>Saturday Tournament</h3>
                         <p>Join the weekend battles</p>
                     </div>
                 </a>
-                <a href="https://discord.com/channels/1050414982417887283/1051428633106972762" target="_blank" class="registration-btn sunday-btn">
+                <a href="https://discord.com/channels/1050414982417887283/1051428633106972762" target="_blank" rel="noopener" class="registration-btn sunday-btn">
                     <div class="btn-icon">
-                        <img src="Icons/Leonardo_Kino_XL_skull_with_sword_in_silver_metal_circle_badge_1.png" alt="Sunday" class="btn-icon-img">
+                        <img src="assets/images/icons/Leonardo_Kino_XL_skull_with_sword_in_silver_metal_circle_badge_1.png" alt="Sunday" class="btn-icon-img">
                     </div>
                     <div class="btn-content">
                         <h3>Sunday Tournament</h3>
@@ -177,7 +188,7 @@
     <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <p>&copy; 2025 M47W - SurvivoR Tournament Hub | Discord Gaming Community</p>
+            <p>&copy; 2021 M47W - SurvivoR Tournament Hub | Discord Gaming Community</p>
             <div class="footer-links">
                 <a href="https://discord.gg/zWz23JMmcZ" target="_blank">Discord Server</a>
                 <a href="#">Rules & Guidelines</a>
@@ -187,12 +198,16 @@
         </div>
     </footer>
     
-    <!-- Load external files -->
-    <!-- SheetJS library for Excel file reading -->
-    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
-    
-    <script src="js/server-data.js"></script>
+    <!-- Load script files -->
     <script src="js/csv-reader.js"></script>
     <script src="js/script.js"></script>
+    <script>
+        // Initialize data loading when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            // Refresh data every 5 minutes
+            setInterval(loadData, 300000);
+        });
+    </script>
 </body>
 </html>

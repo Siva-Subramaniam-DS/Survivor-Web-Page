@@ -1,38 +1,27 @@
 /* Font Face Declarations */
 @font-face {
     font-family: 'Capture It';
-    src: url('Fonts/capture_it/Capture it.ttf') format('truetype');
+    src: url('../Fonts/capture_it/Capture it.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'DS Digital';
-    src: url('Fonts/ds_digital/DS-DIGI.TTF') format('truetype');
+    src: url('../Fonts/ds_digital/DS-DIGI.TTF') format('truetype');
 }
 
 @font-face {
     font-family: 'DS Digital Bold';
-    src: url('Fonts/ds_digital/DS-DIGIB.TTF') format('truetype');
+    src: url('../Fonts/ds_digital/DS-DIGIB.TTF') format('truetype');
     font-weight: bold;
 }
 
-@font-face {
-    font-family: 'Drone Attack';
-    src: url('drone_attack/DroneAttack.otf') format('opentype');
-}
-
-@font-face {
-    font-family: 'Militaria';
-    src: url('militaria/Militaria.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: 'Special Forces';
-    src: url('special_forces/Special Forces.ttf') format('truetype');
-}
+/* Removed missing font-face declarations (DroneAttack, Militaria, Special Forces)
+   to avoid 404 errors. If you add those font files under Fonts/, re-add appropriate @font-face rules.
+*/
 
 @font-face {
     font-family: 'Revamped';
-    src: url('revamped/Revamped.otf') format('opentype');
+    src: url('../Fonts/revamped/Revamped.otf') format('opentype');
 }
 
 /* Global Styles */
@@ -71,8 +60,8 @@ body::before {
     height: 100%;
     background: 
         linear-gradient(rgba(15, 12, 41, 0.85), rgba(48, 43, 99, 0.85)),
-        url('Templates/MW_BP_RisingSun_0.80_1920x1080_screen_loader.png') center/cover,
-        url('Templates/MW_BP_SeaBrotherhood_0.71.0_1920x1080_screen_loader.jpg') center/cover;
+        url('../Templates/MW_BP_RisingSun_0.80_1920x1080_screen_loader.png') center/cover,
+        url('../Templates/MW_BP_SeaBrotherhood_0.71.0_1920x1080_screen_loader.jpg') center/cover;
     background-blend-mode: overlay;
     z-index: -1;
     animation: backgroundShift 20s ease-in-out infinite alternate;
@@ -363,6 +352,30 @@ h1 {
     color: #94a3b8;
 }
 
+.champion-rank {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #1e1b4b;
+    font-weight: bold;
+    font-size: 0.9em;
+    padding: 5px 12px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(251, 191, 36, 0.5);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rank-unit-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
 /* Tournament History */
 .tournament-history {
     display: grid;
@@ -447,6 +460,13 @@ h1 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 15px;
+}
+
+.winners-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
 }
 
 .winner-item {
@@ -540,10 +560,17 @@ h1 {
 
 .rank-badge {
     display: inline-block;
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     vertical-align: middle;
     margin-right: 10px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+    transition: transform 0.3s ease;
+}
+
+.rank-badge:hover {
+    transform: scale(1.2);
 }
 
 /* Month Filters */
@@ -560,7 +587,7 @@ h1 {
     background: rgba(var(--primary-rgba), 0.18);
     border: 2px solid rgba(var(--primary-rgba), 0.45);
     border-radius: 25px;
-    color: #c4b5fd;
+    color: var(--primary-100);
     font-family: 'Special Forces', sans-serif;
     font-size: 0.9em;
     font-weight: bold;
@@ -581,6 +608,42 @@ h1 {
     border-color: var(--primary-500);
     color: white;
     box-shadow: 0 5px 15px rgba(var(--primary-rgba), 0.36);
+}
+
+.filter-btn.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: rgba(100, 100, 100, 0.2);
+    border-color: rgba(100, 100, 100, 0.3);
+}
+
+.filter-btn.disabled:hover {
+    background: rgba(100, 100, 100, 0.2);
+    transform: none;
+}
+
+.month-count {
+    display: inline-block;
+    margin-left: 5px;
+    padding: 2px 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.filter-btn.active .month-count {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.month-count-zero {
+    display: inline-block;
+    margin-left: 5px;
+    padding: 2px 8px;
+    background: rgba(150, 150, 150, 0.3);
+    border-radius: 10px;
+    font-size: 0.85em;
+    color: #666;
 }
 
 /* Last Updated Info */
@@ -1046,4 +1109,164 @@ footer {
     .registration-section {
         padding: 40px 12px;
     }
+}
+
+/* Tournament History Styles */
+.tournament-section {
+    margin-top: 40px;
+}
+
+.tournament-card {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.tournament-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(var(--primary-rgba), 0.1), transparent);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.tournament-title {
+    font-family: 'Capture It', sans-serif;
+    font-size: 1.5rem;
+    color: var(--primary-500);
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.tournament-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 1;
+}
+
+.tournament-date {
+    font-family: 'DS Digital', monospace;
+    font-size: 1.1rem;
+    color: #a0aec0;
+}
+
+.tournament-type {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.tournament-type.parallel-tour {
+    background: linear-gradient(135deg, #3182ce, #2c5282);
+    color: white;
+}
+
+.tournament-type.main-tour {
+    background: linear-gradient(135deg, #d69e2e, #975a16);
+    color: white;
+}
+
+.winner-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin-top: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.winner-position {
+    font-family: 'DS Digital Bold', monospace;
+    font-size: 1.2rem;
+    color: var(--primary-500);
+    margin-right: 15px;
+    min-width: 30px;
+}
+
+.winner-name {
+    font-size: 1.1rem;
+    color: white;
+}
+
+/* Month Filter Styles */
+.month-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+    justify-content: center;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.4);
+    color: #a0aec0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    backdrop-filter: blur(5px);
+}
+
+.filter-btn:hover {
+    background: rgba(var(--primary-rgba), 0.2);
+    color: white;
+}
+
+.filter-btn.active {
+    background: var(--primary-500);
+    color: white;
+    box-shadow: 0 0 15px rgba(var(--primary-rgba), 0.3);
+}
+
+/* Last Updated Section */
+.last-updated {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+    font-family: 'DS Digital', monospace;
+    color: #a0aec0;
+}
+
+.refresh-btn {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    transition: transform 0.2s ease;
+}
+
+.refresh-btn:hover {
+    transform: scale(1.05);
+}
+
+.btn-icon {
+    font-size: 1.1rem;
 }
