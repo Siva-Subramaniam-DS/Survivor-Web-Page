@@ -10,26 +10,32 @@ class CSVDataReader {
     // Load and parse CSV file
     async loadCSVFile() {
         try {
+            // Return cached parsed data if already loaded
+            if (this.parsedData && this.parsedData.length > 0) {
+                console.log('CSV already loaded, returning cached data');
+                return this.parsedData;
+            }
+
             console.log('Loading CSV file:', this.filePath);
-            
+
             // Fetch the CSV file
             const response = await fetch(this.filePath);
             if (!response.ok) {
                 throw new Error(`Failed to load CSV file: ${response.statusText}`);
             }
-            
+
             const csvText = await response.text();
-            
-            // Parse CSV
+
+            // Parse CSV (faster approach, handles CRLF and quoted commas)
             this.rawData = this.parseCSV(csvText);
-            
+
             console.log('CSV file loaded successfully. Rows:', this.rawData.length);
-            
-            // Parse the data
+
+            // Parse the data into structured objects
             this.parseData();
-            
+
             return this.parsedData;
-            
+
         } catch (error) {
             console.error('Error loading CSV file:', error);
             // Fallback to server-data.js if CSV loading fails
@@ -40,41 +46,32 @@ class CSVDataReader {
 
     // Parse CSV text into array of arrays (handles multi-line fields)
     parseCSV(csvText) {
+        // Split into lines (handles both LF and CRLF)
+        const lines = csvText.split(/\r?\n/);
         const result = [];
-        let currentRow = [];
-        let currentField = '';
-        let inQuotes = false;
-        let i = 0;
-        
-        while (i < csvText.length) {
-            const char = csvText[i];
-            
-            if (char === '"') {
-                inQuotes = !inQuotes;
-            } else if (char === ',' && !inQuotes) {
-                currentRow.push(currentField.trim().replace(/"/g, ''));
-                currentField = '';
-            } else if (char === '\n' && !inQuotes) {
-                currentRow.push(currentField.trim().replace(/"/g, ''));
-                if (currentRow.length >= 6 && currentRow[0] && currentRow[1]) {
-                    result.push([...currentRow]);
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!line) continue; // skip empty lines
+
+            // Split on commas that are not inside quotes
+            // This regex splits on commas followed by an even number of quotes (i.e. not inside quoted fields)
+            const fields = line.split(/,(?=(?:[^"]*"[^\"]*")*[^\"]*$)/).map(f => {
+                // Remove surrounding quotes and unescape double-quotes
+                let v = f.trim();
+                if (v.startsWith('"') && v.endsWith('"')) {
+                    v = v.slice(1, -1);
                 }
-                currentRow = [];
-                currentField = '';
-            } else {
-                currentField += char;
-            }
-            i++;
-        }
-        
-        // Add the last row if it exists
-        if (currentField.trim()) {
-            currentRow.push(currentField.trim().replace(/"/g, ''));
-            if (currentRow.length >= 6 && currentRow[0] && currentRow[1]) {
-                result.push(currentRow);
+                v = v.replace(/""/g, '"');
+                return v;
+            });
+
+            // Only include rows that have at least a couple of columns (guard against malformed rows)
+            if (fields.length >= 2 && fields.some(c => c !== '')) {
+                result.push(fields);
             }
         }
-        
+
         return result;
     }
 
@@ -86,31 +83,31 @@ class CSVDataReader {
         }
 
         const serverData = [];
-        const tournamentInfo = [];
         const tournamentMap = new Map();
-        let currentTournamentName = '';
-        let tournamentCounter = 1;
 
-        // Expected CSV format: Winners Stage, Discord Name, Discord ID, Date, Tour Type, Tour Name
-        // Skip header row
-        for (let i = 1; i < this.rawData.length; i++) {
+        // Determine if first row is a header (simple heuristic)
+        let startIndex = 0;
+        const headerRow = this.rawData[0];
+        if (headerRow && headerRow.some && headerRow.some(h => /discord name|winners stage|tour name|date/i.test(h))) {
+            startIndex = 1; // skip header
+        }
+
+        // Expected CSV format (columns may vary slightly): Winners Stage, Discord Name, Discord ID, Date, Tour Type, Tour Name
+        for (let i = startIndex; i < this.rawData.length; i++) {
             const row = this.rawData[i];
-            
-            // Skip completely empty rows or rows without enough data
-            if (!row || row.length < 6) continue;
+            if (!row || row.length < 2) continue;
 
-            // Get data from CSV columns
-            const winnersStage = row[0];
-            const discordName = row[1];
-            const discordId = row[2];
-            const date = this.parseDate(row[3]);
-            const tourType = row[4];
-            const tourName = row[5];
+            const winnersStage = row[0] || '';
+            const discordName = (row[1] || '').trim();
+            const discordId = row[2] || '';
+            const rawDate = row[3] || '';
+            const tourType = row[4] || 'Main Tour';
+            const tourName = (row[5] || '').trim();
 
-            // Skip rows without essential data
-            if (!discordName || discordName === 'Discord Name' || !winnersStage || !tourName) continue;
+            // Basic validation
+            if (!discordName || discordName.toLowerCase() === 'discord name' || !winnersStage || !tourName) continue;
 
-            // Determine position from Winners_Stage (1, 2, 3)
+            // Determine position (1/2/3)
             let position = 1;
             if (typeof winnersStage === 'number') {
                 position = winnersStage;
@@ -121,56 +118,47 @@ class CSVDataReader {
                 }
             }
 
-            // Use tournament name from CSV
-            let tournamentName = tourName.trim();
-            
-            // Create tournament key for grouping
-            const tournamentKey = `${date}_${tournamentName}`;
-            
-            if (!tournamentMap.has(tournamentKey)) {
-                tournamentMap.set(tournamentKey, tournamentName);
-                
-                // Add to tournament info
-                tournamentInfo.push({
-                    name: tournamentName,
-                    date: date || '2025-01-01',
-                    type: tourType || 'Main Tour',
-                    winners: []
-                });
-                
-                tournamentCounter++;
-            }
+            const date = this.parseDate(rawDate) || '2025-01-01';
+            const tournamentName = tourName;
 
-            // Add to serverData
+            // Add to serverData list
             serverData.push({
-                name: discordName.trim(),
+                name: discordName,
                 position: position,
-                tourType: tourType || 'Main Tour',
-                date: date || '2025-01-01',
+                tourType: tourType,
+                date: date,
                 tourName: tournamentName,
                 discordId: discordId
             });
 
-            // Update tournament winners list
-            const tournament = tournamentInfo.find(t => t.name === tournamentName);
-            if (tournament) {
-                const winnerInfo = {
-                    name: discordName.trim(),
-                    position: position
-                };
-                
-                const existingWinner = tournament.winners.find(w => w.name === winnerInfo.name);
-                if (!existingWinner) {
-                    tournament.winners.push(winnerInfo);
-                }
+            // Group into tournamentMap using date + tourName as key (preserves separate tournaments with same name)
+            const tournamentKey = `${date}_${tournamentName}`;
+            if (!tournamentMap.has(tournamentKey)) {
+                tournamentMap.set(tournamentKey, {
+                    name: tournamentName,
+                    date: date,
+                    type: tourType,
+                    winners: []
+                });
+            }
+
+            const tournamentObj = tournamentMap.get(tournamentKey);
+            // Avoid duplicate winners within the same tournament
+            if (!tournamentObj.winners.find(w => w.name === discordName && w.position === position)) {
+                tournamentObj.winners.push({ name: discordName, position: position });
             }
         }
 
+        // Finalize parsed data and tournament info
         this.parsedData = serverData;
-        this.tournamentInfo = tournamentInfo;
+        this.tournamentInfo = Array.from(tournamentMap.values());
+
+        // Sort tournaments by date ascending (older first); UI later sorts for display
+        this.tournamentInfo.sort((a, b) => new Date(a.date) - new Date(b.date));
+        this.tournamentInfo.forEach(t => t.winners.sort((a, b) => a.position - b.position));
 
         console.log('Parsed data:', serverData.length, 'entries');
-        console.log('Tournament info:', tournamentInfo.length, 'tournaments');
+        console.log('Tournament info:', this.tournamentInfo.length, 'tournaments');
     }
 
     // Parse date from CSV format (DD-MM-YYYY)
@@ -183,13 +171,15 @@ class CSVDataReader {
                 return dateValue;
             }
 
-            // Handle DD-MM-YYYY format
-            if (typeof dateValue === 'string' && dateValue.match(/^\d{2}-\d{2}-\d{4}$/)) {
-                const parts = dateValue.split('-');
-                const day = parts[0];
-                const month = parts[1];
-                const year = parts[2];
-                return `${year}-${month}-${day}`;
+            // Handle D-M-YYYY or DD-MM-YYYY formats (accept single-digit day/month)
+            if (typeof dateValue === 'string') {
+                const dmMatch = dateValue.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+                if (dmMatch) {
+                    const day = String(dmMatch[1]).padStart(2, '0');
+                    const month = String(dmMatch[2]).padStart(2, '0');
+                    const year = dmMatch[3];
+                    return `${year}-${month}-${day}`;
+                }
             }
 
             // Try to parse as string
