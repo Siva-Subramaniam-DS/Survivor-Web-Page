@@ -1,0 +1,219 @@
+[
+  {
+    "date": "2025-10-19",
+    "name": "ShadowStrike",
+    "position": 1,
+    "tourName": "October Championship",
+    "tourType": "Main Tournament"
+  },
+  {
+    "date": "2025-10-19",
+    "name": "CyberPhoenix",
+    "position": 2,
+    "tourName": "October Championship",
+    "tourType": "Main Tournament"
+  },
+  {
+    "date": "2025-10-19",
+    "name": "NeonWarrior",
+    "position": 3,
+    "tourName": "October Championship",
+    "tourType": "Main Tournament"
+  },
+  {
+    "date": "2025-10-19",
+    "name": "QuantumBlade",
+    "position": 4,
+    "tourName": "October Championship",
+    "tourType": "Main Tournament"
+  },
+  {
+    "date": "2025-10-12",
+    "name": "ShadowStrike",
+    "position": 1,
+    "tourName": "October Week 2",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-10-12",
+    "name": "TechAssassin",
+    "position": 2,
+    "tourName": "October Week 2",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-10-12",
+    "name": "DigitalGhost",
+    "position": 3,
+    "tourName": "October Week 2",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-10-05",
+    "name": "CyberPhoenix",
+    "position": 1,
+    "tourName": "October Week 1",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-10-05",
+    "name": "NeonWarrior",
+    "position": 2,
+    "tourName": "October Week 1",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-10-05",
+    "name": "ShadowStrike",
+    "position": 3,
+    "tourName": "October Week 1",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-09-28",
+    "name": "QuantumBlade",
+    "position": 1,
+    "tourName": "September Final",
+    "tourType": "Monthly Final"
+  },
+  {
+    "date": "2025-09-28",
+    "name": "TechAssassin",
+    "position": 2,
+    "tourName": "September Final",
+    "tourType": "Monthly Final"
+  },
+  {
+    "date": "2025-09-28",
+    "name": "DigitalGhost",
+    "position": 3,
+    "tourName": "September Final",
+    "tourType": "Monthly Final"
+  },
+  {
+    "date": "2025-09-21",
+    "name": "CyberPhoenix",
+    "position": 1,
+    "tourName": "September Week 4",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-09-21",
+    "name": "NeonWarrior",
+    "position": 2,
+    "tourName": "September Week 4",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-09-14",
+    "name": "ShadowStrike",
+    "position": 1,
+    "tourName": "September Week 3",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-09-14",
+    "name": "QuantumBlade",
+    "position": 2,
+    "tourName": "September Week 3",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-09-07",
+    "name": "TechAssassin",
+    "position": 1,
+    "tourName": "September Week 2",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-09-07",
+    "name": "DigitalGhost",
+    "position": 2,
+    "tourName": "September Week 2",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-08-31",
+    "name": "NeonWarrior",
+    "position": 1,
+    "tourName": "August Final",
+    "tourType": "Monthly Final"
+  },
+  {
+    "date": "2025-08-31",
+    "name": "CyberPhoenix",
+    "position": 2,
+    "tourName": "August Final",
+    "tourType": "Monthly Final"
+  },
+  {
+    "date": "2025-08-24",
+    "name": "ShadowStrike",
+    "position": 1,
+    "tourName": "August Week 4",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-08-24",
+    "name": "QuantumBlade",
+    "position": 2,
+    "tourName": "August Week 4",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-08-17",
+    "name": "TechAssassin",
+    "position": 1,
+    "tourName": "August Week 3",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-08-17",
+    "name": "DigitalGhost",
+    "position": 2,
+    "tourName": "August Week 3",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-08-10",
+    "name": "NeonWarrior",
+    "position": 1,
+    "tourName": "August Week 2",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-08-10",
+    "name": "CyberPhoenix",
+    "position": 2,
+    "tourName": "August Week 2",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-08-03",
+    "name": "ShadowStrike",
+    "position": 1,
+    "tourName": "August Week 1",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-08-03",
+    "name": "QuantumBlade",
+    "position": 2,
+    "tourName": "August Week 1",
+    "tourType": "Weekly Tournament"
+  },
+  {
+    "date": "2025-07-27",
+    "name": "TechAssassin",
+    "position": 1,
+    "tourName": "July Final",
+    "tourType": "Monthly Final"
+  },
+  {
+    "date": "2025-07-27",
+    "name": "DigitalGhost",
+    "position": 2,
+    "tourName": "July Final",
+    "tourType": "Monthly Final"
+  }
+]

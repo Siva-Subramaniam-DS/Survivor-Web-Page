@@ -1,0 +1,27 @@
+{
+  "2025": {
+    "week1": [
+      {
+        "date": "10-19-2025",
+        "tourName": "October Tournament Week 1",
+        "tourType": "Main Tour",
+        "name": "Player1",
+        "position": 1
+      },
+      {
+        "date": "10-19-2025",
+        "tourName": "October Tournament Week 1",
+        "tourType": "Main Tour",
+        "name": "Player2",
+        "position": 2
+      },
+      {
+        "date": "10-19-2025",
+        "tourName": "October Tournament Week 1",
+        "tourType": "Main Tour",
+        "name": "Player3",
+        "position": 3
+      }
+    ]
+  }
+}
