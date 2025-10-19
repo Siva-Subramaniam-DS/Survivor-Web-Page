@@ -14,7 +14,7 @@ const TournamentRegistration: React.FC = () => {
       id: 'saturday',
       title: 'SATURDAY TOURNAMENT',
       description: 'Join the weekend battles',
-      icon: '/assets/images/icons/Survivor hero.png',
+      icon: '/assets/images/icons/Leonardo_Kino_XL_skull_with_sword_in_silver_metal_circle_badge_1.png',
       link: 'https://discord.com/channels/1050414982417887283/1210456226505170964'
     },
     {
@@ -32,35 +32,33 @@ const TournamentRegistration: React.FC = () => {
 
   return (
     <section className="tournament-registration-section">
-      <div className="container">
-        <div className="section-header">
-          <h2 className="section-title">TOURNAMENT REGISTRATION</h2>
-        </div>
-        
-        <div className="tournament-cards">
-          {tournaments.map((tournament) => (
-            <div 
-              key={tournament.id} 
-              className="tournament-card"
-              onClick={() => handleTournamentClick(tournament.link)}
-            >
-              <div className="tournament-icon">
-                <img 
-                  src={tournament.icon} 
-                  alt={tournament.title}
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
-                  }}
-                />
-              </div>
-              <div className="tournament-content">
-                <h3 className="tournament-title">{tournament.title}</h3>
-                <p className="tournament-description">{tournament.description}</p>
-              </div>
+      <div className="section-header">
+        <h2 className="section-title">TOURNAMENT REGISTRATION</h2>
+      </div>
+      
+      <div className="tournament-cards">
+        {tournaments.map((tournament) => (
+          <div 
+            key={tournament.id} 
+            className="tournament-card"
+            onClick={() => handleTournamentClick(tournament.link)}
+          >
+            <div className="tournament-icon">
+              <img 
+                src={tournament.icon} 
+                alt={tournament.title}
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                }}
+              />
             </div>
-          ))}
-        </div>
+            <div className="tournament-content">
+              <h3 className="tournament-title">{tournament.title}</h3>
+              <p className="tournament-description">{tournament.description}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );

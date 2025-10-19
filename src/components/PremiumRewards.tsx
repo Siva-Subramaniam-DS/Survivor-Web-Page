@@ -55,14 +55,14 @@ const PremiumRewards: React.FC = () => {
 
   return (
     <section className="premium-rewards-section">
-      <div className="container">
+      <div className="premium-rewards-container">
         <div className="section-header">
-          <img src="/assets/images/icons/Survivor hero.png" alt="Icon" className="header-icon" onError={(e) => {
+          <img src="/assets/images/icons/Survivor hero.png" alt="Warrior Icon" className="header-icon" onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.style.display = 'none';
           }} />
           <h2 className="section-title">PREMIUM REWARDS</h2>
-          <img src="/assets/images/icons/Survivor hero.png" alt="Icon" className="header-icon" onError={(e) => {
+          <img src="/assets/images/icons/Screenshot_2024-09-13_073231-removebg-preview.png" alt="Swords Icon" className="header-icon" onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.style.display = 'none';
           }} />
@@ -81,8 +81,10 @@ const PremiumRewards: React.FC = () => {
                   }}
                 />
               </div>
-              <h3 className="reward-title">{reward.title}</h3>
-              <p className="reward-description">{reward.description}</p>
+              <div className="reward-content">
+                <h3 className="reward-title">{reward.title}</h3>
+                <p className="reward-description">{reward.description}</p>
+              </div>
             </div>
           ))}
         </div>

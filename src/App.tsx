@@ -46,45 +46,43 @@ export default function App() {
       <PremiumRewards />
       <TournamentRegistration />
       
-      <main className="container">
-        <section className="champions-section">
-          <h2 className="section-header">CHAMPIONS GALLERY</h2>
-          <ChampionsGrid tournaments={tournaments} />
-        </section>
+      <section className="champions-section">
+        <h2 className="section-header">CHAMPIONS GALLERY</h2>
+        <ChampionsGrid tournaments={tournaments} />
+      </section>
 
-        <section className="tournament-section">
-          <div className="last-updated">
-            <div className="label">Last Updated</div>
-            <div className="timestamp" id="lastUpdated">
-              {new Date().toLocaleString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-              })}
-            </div>
-            <div className="refresh-indicator">
-              <div className="pulse"></div>
-              Auto-refreshing every 5 minutes
-            </div>
+      <section className="tournament-section">
+        <div className="last-updated">
+          <div className="label">Last Updated</div>
+          <div className="timestamp" id="lastUpdated">
+            {new Date().toLocaleString('en-US', {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit'
+            })}
           </div>
+          <div className="refresh-indicator">
+            <div className="pulse"></div>
+            Auto-refreshing every 5 minutes
+          </div>
+        </div>
 
-          <TournamentHistory
-            tournaments={tournaments}
-            currentFilter={currentFilter}
-            currentPage={currentPage}
-            onPageChange={(page) => {
-              setCurrentPage(page);
-            }}
-            onFilterChange={(filter) => {
-              setCurrentFilter(filter);
-              setCurrentPage(1);
-            }}
-          />
-        </section>
-      </main>
+        <TournamentHistory
+          tournaments={tournaments}
+          currentFilter={currentFilter}
+          currentPage={currentPage}
+          onPageChange={(page) => {
+            setCurrentPage(page);
+          }}
+          onFilterChange={(filter) => {
+            setCurrentFilter(filter);
+            setCurrentPage(1);
+          }}
+        />
+      </section>
 
       <footer>
         <div className="footer-content">
