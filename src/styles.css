@@ -33,6 +33,13 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 /* Prevent text selection and right-click */
 body, html {
   -webkit-user-select: none;
@@ -108,8 +115,8 @@ body::before {
     url('/assets/images/templates/MW_BP_FrozenGale_0.75.0_no_UI.png');
   background-size: cover;
   background-position: center;
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
   position: relative;
   overflow: hidden;
@@ -230,8 +237,8 @@ body::before {
   background: var(--glass-bg);
   border: 1px solid var(--border);
   border-radius: 16px;
-  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   transition: all 0.3s ease;
   min-width: 160px;
   position: relative;
@@ -283,8 +290,8 @@ body::before {
   background-position: center;
   background-attachment: fixed;
   border-radius: 20px;
-  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
 }
@@ -367,8 +374,8 @@ body::before {
   padding: 32px 28px;
   text-align: center;
   transition: all 0.4s ease;
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -430,8 +437,8 @@ body::before {
   align-items: center;
   justify-content: center;
   background: var(--glass-bg);
-  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   position: relative;
   overflow: hidden;
 }
@@ -508,6 +515,9 @@ body::before {
   transition: all 0.3s ease;
   font-size: 14px;
   font-weight: 500;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .filter-btn:hover {
@@ -566,8 +576,8 @@ body::before {
   border-radius: 16px;
   margin-bottom: 20px;
   transition: all 0.3s ease;
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   position: relative;
   overflow: hidden;
 }
@@ -612,8 +622,8 @@ body::before {
   background: var(--card-bg);
   border: 2px solid var(--border);
   border-radius: 12px;
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   max-width: 800px;
   width: 100%;
   justify-content: center;
@@ -671,8 +681,8 @@ body::before {
   background: var(--glass-bg);
   border-radius: 20px;
   margin: 32px 0;
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   border: 1px solid var(--border);
 }
 
@@ -712,6 +722,9 @@ body::before {
   gap: 8px;
   transition: all 0.3s ease;
   margin-top: 16px;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .refresh-btn:hover {
@@ -786,8 +799,8 @@ body::before {
   padding: 32px 24px;
   text-align: center;
   transition: all 0.4s ease;
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -938,8 +951,8 @@ body::before {
   padding: 32px 24px;
   cursor: pointer;
   transition: all 0.4s ease;
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   display: flex;
   align-items: center;
   gap: 24px;
@@ -949,6 +962,9 @@ body::before {
   min-height: 120px;
   position: relative;
   overflow: hidden;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .tournament-registration-section .tournament-card:hover {
@@ -1057,6 +1073,9 @@ body::before {
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 600;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .pagination-btn:hover:not(:disabled) {
@@ -1109,118 +1128,29 @@ footer {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-  .container {
-    padding: 0 12px;
+@media (max-width: 1024px) {
+  .header {
+    padding: 24px 20px;
   }
   
   .main-title {
-    font-size: 36px;
+    font-size: 40px;
+    letter-spacing: 2px;
   }
   
   .tagline-text {
-    font-size: 22px;
+    font-size: 24px;
   }
   
   .stats-bar {
-    flex-direction: column;
-    gap: 16px;
-  }
-  
-  .stat-item {
-    min-width: auto;
-    width: 100%;
-    max-width: 300px;
-    margin: 0 auto;
+    gap: 32px;
+    flex-wrap: wrap;
   }
   
   .champions-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  
-  .month-filters {
-    justify-content: center;
-  }
-  
-  .tagline {
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  .tournament-section {
-    padding: 40px 16px;
-  }
-  
-  .last-updated {
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    padding: 20px 16px;
-    margin-bottom: 30px;
-  }
-  
-  .tournament-list {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
     padding: 0 16px;
-  }
-  
-  .month-filters {
-    padding: 0 16px;
-    margin-bottom: 24px;
-  }
-  
-  .pagination {
-    padding: 20px 16px;
-    margin-top: 30px;
-  }
-  
-  .footer-links {
-    flex-direction: column;
-    gap: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .header {
-    padding: 20px 16px;
-  }
-  
-  .main-title {
-    font-size: 28px;
-  }
-  
-  .tagline-text {
-    font-size: 18px;
-  }
-  
-  .section-header {
-    font-size: 24px;
-  }
-  
-  .champion-card {
-    padding: 20px;
-  }
-  
-  .champion-avatar {
-    width: 80px;
-    height: 80px;
-  }
-  
-  .avatar-image {
-    width: 60px;
-    height: 60px;
-  }
-  
-  .tournament-card {
-    padding: 12px;
-  }
-  
-  .stat-value {
-    font-size: 24px;
-  }
-  
-  .premium-rewards-section .section-title {
-    font-size: 28px;
   }
   
   .rewards-grid {
@@ -1229,85 +1159,112 @@ footer {
     padding: 0 16px;
   }
   
-  .reward-card {
-    padding: 28px 20px;
-    min-height: 260px;
-    max-width: 320px;
-  }
-  
-  .reward-icon {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 16px;
-  }
-  
-  .reward-icon img {
-    width: 60px;
-    height: 60px;
-  }
-  
-  .reward-title {
-    font-size: 18px;
-    margin-bottom: 12px;
-  }
-  
-  .reward-description {
-    font-size: 14px;
-  }
-  
-  .tournament-registration-section {
-    padding: 40px 16px;
-  }
-  
-  .tournament-registration-section .section-title {
-    font-size: 36px;
-    margin-bottom: 40px;
-  }
-  
   .tournament-cards {
     flex-direction: column;
     gap: 24px;
-    max-width: 500px;
   }
   
   .tournament-registration-section .tournament-card {
-    min-width: auto;
-    max-width: none;
+    min-width: 300px;
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+  }
+  
+  .container {
+    padding: 0 12px;
+    margin: 16px auto;
+    background-attachment: scroll;
+  }
+  
+  .header {
+    padding: 24px 16px;
+    background-attachment: scroll;
+  }
+  
+  .main-title {
+    font-size: 32px;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+  
+  .logo {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .tagline {
     flex-direction: column;
-    text-align: center;
-    gap: 20px;
-    padding: 28px 20px;
+    gap: 12px;
+    margin-bottom: 24px;
   }
   
-  .tournament-icon {
-    width: 70px;
-    height: 70px;
+  .tagline-icon {
+    width: 32px;
+    height: 32px;
   }
   
-  .tournament-icon img {
-    width: 50px;
-    height: 50px;
+  .tagline-text {
+    font-size: 20px;
+    letter-spacing: 1px;
   }
   
-  .champions-section {
+  .stats-bar {
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  
+  .stat-item {
+    min-width: auto;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 20px 16px;
+  }
+  
+  .stat-icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .stat-value {
+    font-size: 28px;
+  }
+  
+  .champions-section,
+  .tournament-section,
+  .premium-rewards-section,
+  .tournament-registration-section {
     padding: 40px 16px;
+    min-height: unset;
+    background-attachment: scroll;
+  }
+  
+  .section-header {
+    font-size: 28px;
+    margin-bottom: 24px;
   }
   
   .champions-section .section-header {
-    font-size: 36px;
-    margin-bottom: 40px;
+    font-size: 32px;
+    margin-bottom: 32px;
   }
   
   .champions-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-    padding: 0 16px;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 12px;
   }
   
   .champion-card {
-    padding: 28px 20px;
+    max-width: 100%;
+    padding: 24px 20px;
     min-height: 360px;
-    max-width: 320px;
   }
   
   .champion-avatar {
@@ -1319,5 +1276,516 @@ footer {
   .avatar-image {
     width: 100px;
     height: 100px;
+  }
+  
+  .month-filters {
+    justify-content: center;
+    padding: 0 12px;
+    margin-bottom: 24px;
+    gap: 8px;
+  }
+  
+  .filter-btn {
+    padding: 8px 14px;
+    font-size: 13px;
+    margin-right: 0;
+  }
+  
+  .tournament-list {
+    padding: 0 12px;
+  }
+  
+  .tournament-card {
+    padding: 20px 16px;
+    margin-bottom: 16px;
+  }
+  
+  .tournament-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .last-updated {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .pagination {
+    padding: 16px;
+    margin-top: 24px;
+    gap: 12px;
+  }
+  
+  .pagination-btn {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+  
+  .rewards-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 12px;
+  }
+  
+  .reward-card {
+    max-width: 100%;
+    padding: 28px 20px;
+    min-height: 260px;
+  }
+  
+  .reward-icon {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .reward-icon img {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .reward-title {
+    font-size: 18px;
+  }
+  
+  .premium-rewards-section .section-title {
+    font-size: 28px;
+  }
+  
+  .tournament-registration-section .section-title {
+    font-size: 32px;
+  }
+  
+  .tournament-cards {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .tournament-registration-section .tournament-card {
+    min-width: auto;
+    max-width: 100%;
+    padding: 24px 20px;
+  }
+  
+  .footer-links {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 20px 12px;
+  }
+  
+  .logo {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .logo-fallback {
+    font-size: 60px;
+  }
+  
+  .main-title {
+    font-size: 24px;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+  
+  .tagline {
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .tagline-icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .tagline-text {
+    font-size: 16px;
+    letter-spacing: 0.5px;
+  }
+  
+  .stats-bar {
+    gap: 12px;
+    margin-top: 20px;
+  }
+  
+  .stat-item {
+    padding: 16px 12px;
+    max-width: 100%;
+    min-width: auto;
+  }
+  
+  .stat-icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .stat-label {
+    font-size: 11px;
+  }
+  
+  .stat-value {
+    font-size: 24px;
+  }
+  
+  .container {
+    margin: 12px 8px;
+    padding: 0 8px;
+    border-radius: 16px;
+  }
+  
+  .champions-section {
+    padding: 32px 12px;
+  }
+  
+  .champions-section .section-header {
+    font-size: 28px;
+    margin-bottom: 28px;
+  }
+  
+  .section-header {
+    font-size: 22px;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+  }
+  
+  .section-header::after {
+    width: 60px;
+    height: 2px;
+  }
+  
+  .champions-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 0 8px;
+  }
+  
+  .champion-card {
+    padding: 20px 16px;
+    min-height: 320px;
+    max-width: 100%;
+    border-radius: 16px;
+  }
+  
+  .champion-rank {
+    margin-bottom: 12px;
+  }
+  
+  .rank-unit-icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .rank-number {
+    font-size: 16px;
+  }
+  
+  .champion-avatar {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 16px;
+    border-width: 3px;
+  }
+  
+  .avatar-image {
+    width: 85px;
+    height: 85px;
+  }
+  
+  .champion-name {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .champion-stats {
+    font-size: 13px;
+  }
+  
+  .month-filters {
+    padding: 0 8px;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  
+  .filter-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  .tournament-section {
+    padding: 32px 12px;
+  }
+  
+  .last-updated {
+    padding: 14px 12px;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .label,
+  .timestamp {
+    font-size: 13px;
+  }
+  
+  .refresh-indicator {
+    font-size: 11px;
+  }
+  
+  .tournament-list {
+    padding: 0 8px;
+  }
+  
+  .tournament-card {
+    padding: 16px 12px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+  }
+  
+  .tournament-meta {
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  
+  .winner-item {
+    gap: 10px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+  
+  .winner-position {
+    min-width: 35px;
+    font-size: 14px;
+  }
+  
+  .winner-name {
+    font-size: 14px;
+  }
+  
+  .pagination {
+    padding: 14px 12px;
+    margin-top: 20px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .pagination-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .pagination-info {
+    font-size: 13px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .premium-rewards-section {
+    padding: 32px 12px;
+  }
+  
+  .premium-rewards-section .section-header {
+    margin-bottom: 32px;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .premium-rewards-section .section-title {
+    font-size: 24px;
+    letter-spacing: 1px;
+  }
+  
+  .header-icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .rewards-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 0 8px;
+  }
+  
+  .reward-card {
+    padding: 24px 16px;
+    min-height: 240px;
+    max-width: 100%;
+    border-radius: 16px;
+  }
+  
+  .reward-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 16px;
+    border-radius: 16px;
+  }
+  
+  .reward-icon img {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .reward-title {
+    font-size: 16px;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+  
+  .reward-description {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  
+  .tournament-registration-section {
+    padding: 32px 12px;
+  }
+  
+  .tournament-registration-section .section-header {
+    margin-bottom: 32px;
+  }
+  
+  .tournament-registration-section .section-title {
+    font-size: 28px;
+    letter-spacing: 2px;
+    padding: 0 12px;
+  }
+  
+  .tournament-cards {
+    flex-direction: column;
+    gap: 16px;
+    max-width: 100%;
+  }
+  
+  .tournament-registration-section .tournament-card {
+    min-width: auto;
+    max-width: 100%;
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+    padding: 24px 16px;
+    border-radius: 16px;
+    min-height: 100px;
+  }
+  
+  .tournament-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+  }
+  
+  .tournament-icon img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .tournament-registration-section .tournament-title {
+    font-size: 16px;
+    white-space: normal;
+  }
+  
+  .tournament-registration-section .tournament-description {
+    font-size: 13px;
+  }
+  
+  .tour-type {
+    font-size: 11px;
+    padding: 2px 6px;
+    margin-left: 4px;
+  }
+  
+  .loading {
+    min-height: 200px;
+    margin: 20px 8px;
+    border-radius: 16px;
+    padding: 20px;
+  }
+  
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border-width: 3px;
+    margin-bottom: 20px;
+  }
+  
+  .loading p {
+    font-size: 16px;
+  }
+  
+  .refresh-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  
+  footer {
+    padding: 20px 12px;
+  }
+  
+  .footer-content {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  
+  .footer-links {
+    gap: 10px;
+  }
+  
+  .footer-links a {
+    font-size: 13px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 360px) {
+  .main-title {
+    font-size: 20px;
+  }
+  
+  .tagline-text {
+    font-size: 14px;
+  }
+  
+  .champions-section .section-header,
+  .tournament-registration-section .section-title {
+    font-size: 24px;
+  }
+  
+  .section-header {
+    font-size: 20px;
+  }
+  
+  .champion-card,
+  .reward-card,
+  .tournament-registration-section .tournament-card {
+    padding: 16px 12px;
+  }
+  
+  .champion-avatar {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .avatar-image {
+    width: 75px;
+    height: 75px;
+  }
+  
+  .stat-value {
+    font-size: 20px;
+  }
+  
+  .premium-rewards-section .section-title {
+    font-size: 20px;
+  }
+  
+  .filter-btn {
+    padding: 6px 10px;
+    font-size: 11px;
   }
 }
